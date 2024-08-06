@@ -35,7 +35,8 @@ class View:
         Response
             A Flask response object containing the board state.
         """
-        pass
+        state = board.get_board_state()
+        return make_response(jsonify(state), 200)
 
     def get_winner(self, winner: str = None) -> Response:
         """
@@ -51,7 +52,8 @@ class View:
         Response
             A Flask response object containing the winner.
         """
-        pass
+        winner = board.get_winner()
+        return make_response(jsonify(winner), 200)
 
     def error(self, error: str) -> Response:
         """
@@ -67,4 +69,4 @@ class View:
         Response
             A Flask response object containing the error message.
         """
-        pass
+        return make_response(jsonify(error), 400)

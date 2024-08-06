@@ -43,7 +43,9 @@ class Model:
         """
         Initializes the Model with an empty board and sets the starting player to 'X'.
         """
-        pass
+        self.board = Board()
+        self.player = 'X'
+        self.winner = None
 
     def get_current_player(self) -> str:
         """
@@ -54,19 +56,24 @@ class Model:
         str
             The current player ('X' or 'O').
         """
-        pass
+        return self.player
 
     def change_player(self) -> None:
         """
         Switches the current player from 'X' to 'O' or from 'O' to 'X'.
         """
-        pass
+        self.player = 'O' if self.player == 'X' else 'X'
+
 
     def set_winner(self) -> None:
         """
         Checks for a winner and sets the winner attribute if there is one.
         """
-        pass
+        wincoms = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
+        for wincom in wincoms:
+            if self.board.squares[wincom[0]] == self.board.squares[wincom[1]] == self.board.squares[wincom[2]] and self.board.squares[wincom[0]] != ' ':
+                self.winner = self.board.squares[wincom[0]]
+                return None
 
     def get_winner(self) -> Optional[str]:
         """
@@ -77,7 +84,7 @@ class Model:
         Optional[str]
             The winner of the game, or None if there is no winner yet.
         """
-        pass
+        return self.winner
 
     def get_board_state(self) -> list[str]:
         """
@@ -88,7 +95,8 @@ class Model:
         list[str]
             A copy of the current board state.
         """
-        pass
+        return self.board.squares.copy()
+        
 
     def move(self, index: int) -> None:
         """
@@ -104,8 +112,10 @@ class Model:
         ValueError
             If the specified index is already occupied.
         """
-        if True:
-            pass
+        if self.board.squares[index] == ' ':
+            self.board.squares[index] = self.player
+            self.change_player()
+            self.set_winner()
         else:
             logger.error(f'Move failed at index {index} - square already occupied')
             raise ValueError(SQUARE_OCCUPIED_ERROR_MSG)

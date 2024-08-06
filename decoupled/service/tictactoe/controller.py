@@ -24,7 +24,7 @@ def get_board_state() -> Response:
     Response
         A Flask response object containing the board state as JSON.
     """
-    pass
+    return VIEW.board_state(MODEL.board)
 
 def get_winner() -> Response:
     """
@@ -35,7 +35,7 @@ def get_winner() -> Response:
     Response
         A Flask response object containing the winner as JSON.
     """
-    pass
+    return VIEW.get_winner(MODEL.get_winner())
 
 def validate_index(index: str) -> int:
     """
@@ -56,11 +56,15 @@ def validate_index(index: str) -> int:
     ValueError
         If the index is not a valid integer or is out of bounds.
     """
-    pass
+    index = int(index)
+    if index < 0 or index > 8:
+        raise ValueError(INVALID_MOVE_ERROR_MSG)
+    return index
+    
 
 def make_move(index: str) -> Response:
     """
-    Makes a move at the specified index.
+    ##Makes a move at the specified index.
 
     Parameters
     ----------
@@ -73,7 +77,9 @@ def make_move(index: str) -> Response:
         A Flask response object indicating success or failure.
     """
     try:
-        pass
+        index_fine = validate_index(index)
+        MODEL.move(index_fine)
+        return VIEW.board_state(MODEL.board)
     except ValueError as e:
         logger.error(f"Error making move: {e}")
         return VIEW.error(str(e), 400)
