@@ -52,7 +52,7 @@ class View:
         Response
             A Flask response object containing the winner.
         """
-        winner = board.get_winner()
+        winner = self.get_winner()
         return make_response(jsonify(winner), 200)
 
     def error(self, error: str) -> Response:

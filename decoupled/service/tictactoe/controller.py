@@ -56,11 +56,15 @@ def validate_index(index: str) -> int:
     ValueError
         If the index is not a valid integer or is out of bounds.
     """
-    index = int(index)
+    try:
+        index = int(index)
+    except ValueError:
+        raise ValueError(INVALID_MOVE_ERROR_MSG)
+    
     if index < 0 or index > 8:
         raise ValueError(INVALID_MOVE_ERROR_MSG)
-    return index
     
+    return index
 
 def make_move(index: str) -> Response:
     """

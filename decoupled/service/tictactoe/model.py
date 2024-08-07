@@ -43,7 +43,7 @@ class Model:
         """
         Initializes the Model with an empty board and sets the starting player to 'X'.
         """
-        self.board = Board()
+        self.board = Board(squares = [""]*9)
         self.player = 'X'
         self.winner = None
 
@@ -69,12 +69,25 @@ class Model:
         """
         Checks for a winner and sets the winner attribute if there is one.
         """
-        wincoms = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
-        for wincom in wincoms:
-            if self.board.squares[wincom[0]] == self.board.squares[wincom[1]] == self.board.squares[wincom[2]] and self.board.squares[wincom[0]] != ' ':
-                self.winner = self.board.squares[wincom[0]]
-                return None
+        winning_combinations = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ]
 
+        for combo in winning_combinations:
+            if self.board.squares[combo[0]] == self.board.squares[combo[1]] == self.board.squares[combo[2]] != "":
+                self.winner = self.board.squares[combo[0]]
+                return
+
+        # If no winner, set winner to None
+        self.winner = None
+        
     def get_winner(self) -> Optional[str]:
         """
         Returns the winner of the game (if any).
@@ -95,7 +108,7 @@ class Model:
         list[str]
             A copy of the current board state.
         """
-        return self.board.squares.copy()
+        return self.board
         
 
     def move(self, index: int) -> None:
@@ -112,7 +125,7 @@ class Model:
         ValueError
             If the specified index is already occupied.
         """
-        if self.board.squares[index] == ' ':
+        if self.board.squares[index] == '':
             self.board.squares[index] = self.player
             self.change_player()
             self.set_winner()
