@@ -108,7 +108,7 @@ class Model:
         list[str]
             A copy of the current board state.
         """
-        return self.board
+        return self.board.squares
         
 
     def move(self, index: int) -> None:
