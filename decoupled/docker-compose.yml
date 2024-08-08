@@ -10,7 +10,7 @@ services:
 
   react-app:
     build:
-      context: ./client
+      context: ./client/tic-tac-toe
       args:
         REACT_APP_FLASK_API: http://${FLOATING_IP}:5000/tictactoe
     # image: decoupled_react-app
